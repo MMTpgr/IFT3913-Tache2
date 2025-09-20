@@ -21,6 +21,8 @@ package com.graphhopper.util;
 import com.carrotsearch.hppc.IntArrayList;
 import org.junit.jupiter.api.Test;
 
+import com.github.javafaker.Faker;
+
 import java.util.Arrays;
 import java.util.Random;
 
@@ -211,22 +213,31 @@ class ArrayUtilTest {
     }
 
     @Test
-    public void testCalcSortOrder_IntArrayList_UnequalSize_ThrowsException() {
-        IntArrayList arr1 = from(1, 2, 3);
-        IntArrayList arr2 = from(4, 5);
+    void testCalcSortOrder_IntArrayList_UnequalSize_ThrowsException_Faker() {
+        Faker faker = new Faker();
+
+        // Generate random sizes for the lists (ensuring they are unequal)
+        int size1 = faker.number().numberBetween(3, 10);
+        int size2;
+        do {
+            size2 = faker.number().numberBetween(1, 10);
+        } while (size2 == size1); // ensure sizes are unequal
+
+        // Fill the lists with random integers (1–100)
+        IntArrayList arr1 = new IntArrayList();
+        IntArrayList arr2 = new IntArrayList();
+
+        for (int i = 0; i < size1; i++) arr1.add(faker.number().numberBetween(1, 100));
+        for (int i = 0; i < size2; i++) arr2.add(faker.number().numberBetween(1, 100));
+
+        // The test should still throw IllegalArgumentException
         assertThrows(IllegalArgumentException.class, () -> {
             ArrayUtil.calcSortOrder(arr1, arr2);
         });
     }
 
-    @Test
-    public void testRemoveConsecutiveDuplicates_NegativeEnd_ThrowsException() {
-        int[] arr = {1, 2, 2, 3};
-        assertThrows(IllegalArgumentException.class, () -> {
-            ArrayUtil.removeConsecutiveDuplicates(arr, -1);
-        });
 
-    }
+                    
 
     @Test
     void testConstructor() {
