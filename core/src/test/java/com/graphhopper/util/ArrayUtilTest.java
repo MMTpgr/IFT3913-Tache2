@@ -178,4 +178,59 @@ class ArrayUtilTest {
         int[] b = {3, 7, 9, 10, 11, 12, 15, 20, 21, 26};
         assertEquals(from(2, 3, 6, 7, 8, 9, 10, 11, 12, 15, 20, 21, 26), from(ArrayUtil.merge(a, b)));
     }
+
+    @Test
+    public void testSubList_NormalRange() {
+        IntArrayList list = from(1, 2, 3, 4, 5);
+        IntArrayList sub = ArrayUtil.subList(list, 1, 4);
+        assertEquals(from(2, 3, 4), sub);
+    }
+
+    @Test
+    public void testCalcSortOrder_InvalidLength_ThrowsException() {
+        int[] arr1 = {1, 2, 3};
+        int[] arr2 = {4, 5, 6};
+        // length is greater than arr1 and arr2 length
+        assertThrows(IllegalArgumentException.class, () -> {
+            ArrayUtil.calcSortOrder(arr1, arr2, 4);
+        });
+        // arr2 is shorter than length
+        int[] arr2Short = {7, 8};
+        assertThrows(IllegalArgumentException.class, () -> {
+            ArrayUtil.calcSortOrder(arr1, arr2Short, 3);
+        });
+    }
+
+    @Test
+    public void testApplyOrder_InvalidOrderLength_ThrowsException() {
+        int[] arr = {10, 20, 30};
+        int[] order = {2, 1, 0, 3}; // order.length > arr.length
+        assertThrows(IllegalArgumentException.class, () -> {
+            ArrayUtil.applyOrder(arr, order);
+        });
+    }
+
+    @Test
+    public void testCalcSortOrder_IntArrayList_UnequalSize_ThrowsException() {
+        IntArrayList arr1 = from(1, 2, 3);
+        IntArrayList arr2 = from(4, 5);
+        assertThrows(IllegalArgumentException.class, () -> {
+            ArrayUtil.calcSortOrder(arr1, arr2);
+        });
+    }
+
+    @Test
+    public void testRemoveConsecutiveDuplicates_NegativeEnd_ThrowsException() {
+        int[] arr = {1, 2, 2, 3};
+        assertThrows(IllegalArgumentException.class, () -> {
+            ArrayUtil.removeConsecutiveDuplicates(arr, -1);
+        });
+
+    }
+
+    @Test
+    void testConstructor() {
+        // Just to cover the private constructor
+        new ArrayUtil();
+    }
 }
