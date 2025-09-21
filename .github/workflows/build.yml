@@ -39,7 +39,7 @@ jobs:
 
       # ---- PIT Mutation Testing ----
       - name: Run PIT mutation testing
-        run: cd core && mvn test-compile org.pitest:pitest-maven:mutationCoverage
+        run: pwd && cd core && pwd && mvn test-compile org.pitest:pitest-maven:mutationCoverage
 
       
 
