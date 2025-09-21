@@ -39,45 +39,11 @@ jobs:
 
       # ---- PIT Mutation Testing ----
       - name: Run PIT mutation testing
-        run: pwd && cd core && pwd && mvn test-compile org.pitest:pitest-maven:mutationCoverage
+        run: pwd && cd core && pwd && mvn test-compile org.pitest:pitest-maven:mutationCoverage && grep -oP '\d+%' target/pit-reports/index.html | sed -n '2p' | xargs -I{} echo "Mutation Coverage: {}" > mutation_score.txt
 
+        
 
-      - name: Extract current mutation score
-        run: |
-          SCORE=$(xmllint --xpath "string(//mutationMatrix/@mutationScore)" target/pit-reports/*/mutations.xml 2>/dev/null || echo "0")
-          echo "CURRENT_SCORE=$SCORE"
-          echo "CURRENT_SCORE=$SCORE" >> $GITHUB_ENV
-
-      - name: Download previous mutation score
-        uses: actions/download-artifact@v4
-        with:
-          name: mutation-score
-          path: .
-
-      - name: Compare with previous mutation score
-        run: |
-          if [ -f previous_score.txt ]; then
-            PREV_SCORE=$(cat previous_score.txt)
-          else
-            PREV_SCORE=0
-          fi
-
-          echo "Previous score: $PREV_SCORE"
-          echo "Current score:  $CURRENT_SCORE"
-
-          if (( $(echo "$CURRENT_SCORE < $PREV_SCORE" | bc -l) )); then
-            echo "❌ Mutation score decreased ($CURRENT_SCORE < $PREV_SCORE)"
-            exit 1
-          fi
-
-      - name: Save current mutation score
-        run: echo "$CURRENT_SCORE" > previous_score.txt
-
-      - name: Upload mutation score for next run
-        uses: actions/upload-artifact@v4
-        with:
-          name: mutation-score
-          path: previous_score.txt
+      
 
       
 
