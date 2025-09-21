@@ -181,15 +181,48 @@ class ArrayUtilTest {
         assertEquals(from(2, 3, 6, 7, 8, 9, 10, 11, 12, 15, 20, 21, 26), from(ArrayUtil.merge(a, b)));
     }
 
+    /**
+     * Test: testSubList_NormalRange
+     *
+     * Intention :
+     * Vérifie que subList retourne correctement une sous-liste
+     * lorsqu’on lui fournit un intervalle valide (indices dans les bornes).
+     *
+     * Données de test :
+     * La liste d’entrée est [1,2,3,4,5] et les indices sont (1,4).
+     * On choisit cette liste car elle est simple et ordonnée,
+     * et l’intervalle permet d’extraire une sous-partie centrale.
+     *
+     * Oracle :
+     * Le résultat attendu est [2,3,4].
+     * Si la méthode retourne cette sous-liste, le test est réussi ;
+     * sinon, cela indique un problème d’indexation (off-by-one).
+     */
     @Test
-    public void testSubList_NormalRange() {
+    public void testSubList() {
         IntArrayList list = from(1, 2, 3, 4, 5);
         IntArrayList sub = ArrayUtil.subList(list, 1, 4);
         assertEquals(from(2, 3, 4), sub);
     }
 
+    /**
+     * Test: testCalcSortOrder_InvalidLength
+     *
+     * Intention :
+     * Vérifie que calcSortOrder lance une IllegalArgumentException
+     * lorsque la longueur demandée ne correspond pas à la taille des tableaux.
+     *
+     * Données de test :
+     * - Cas 1 : arr1=[1,2,3], arr2=[4,5,6], length=4 → length trop grand.
+     * - Cas 2 : arr1=[1,2,3], arr2=[7,8], length=3 → arr2 trop court.
+     * On utilise de petits tableaux explicites pour rendre le test lisible.
+     *
+     * Oracle :
+     * Dans les deux cas, une IllegalArgumentException doit être levée,
+     * car la précondition sur la taille n’est pas respectée.
+     */
     @Test
-    public void testCalcSortOrder_InvalidLength_ThrowsException() {
+    public void testCalcSortOrder_InvalidLength() {
         int[] arr1 = {1, 2, 3};
         int[] arr2 = {4, 5, 6};
         // length is greater than arr1 and arr2 length
@@ -203,8 +236,24 @@ class ArrayUtilTest {
         });
     }
 
+    /**
+     * Test: testApplyOrder_InvalidOrderLength_ThrowsException
+     *
+     * Intention :
+     * Vérifie que applyOrder(int[], int[]) rejette un ordre dont la longueur
+     * est supérieure à celle du tableau source.
+     *
+     * Données de test :
+     * arr = [10,20,30] (longueur 3),
+     * order = [2,1,0,3] (longueur 4).
+     * Le mismatch volontaire de taille provoque une erreur.
+     *
+     * Oracle :
+     * Une IllegalArgumentException doit être levée.
+     * Cela valide que la méthode vérifie la cohérence de la longueur de order.
+     */
     @Test
-    public void testApplyOrder_InvalidOrderLength_ThrowsException() {
+    public void testApplyOrder_InvalidOrderLength() {
         int[] arr = {10, 20, 30};
         int[] order = {2, 1, 0, 3}; // order.length > arr.length
         assertThrows(IllegalArgumentException.class, () -> {
@@ -212,6 +261,29 @@ class ArrayUtilTest {
         });
     }
 
+    /**
+     * Test: testCalcSortOrder_IntArrayList_UnequalSize_ThrowsException_Faker
+     *
+     * Intention :
+     * Vérifie que calcSortOrder(IntArrayList, IntArrayList) rejette deux listes
+     * de tailles différentes en lançant une IllegalArgumentException a l'aide de JavaFaker.
+     * 
+     * L'utilisation de JavaFaker est justifiée ici afin de générer dynamiquement
+     * des entiers aléatoires dans des listes d'entrée. Cela permet 
+     * d'éviter de hardcoder des valeurs arbitraires et de couvrir un éventail
+     * plus large de scénarios possibles en creeant deux listes contenant des entiers aleatoires. 
+     *
+     * Données de test :
+     * Les tailles des deux listes sont générées aléatoirement avec Faker
+     * dans une plage 3–10, en s’assurant qu’elles sont inégales.
+     * Les contenus sont remplis de valeurs aléatoires (1–100),
+     * mais le contenu importe peu, seule la différence de taille compte.
+     *
+     * Oracle :
+     * Une IllegalArgumentException doit être levée car les deux listes
+     * n’ont pas la même taille. Le test est déterministe sur le résultat attendu,
+     * même si les valeurs varient.
+     */
     @Test
     void testCalcSortOrder_IntArrayList_UnequalSize_ThrowsException_Faker() {
         Faker faker = new Faker();
@@ -237,7 +309,6 @@ class ArrayUtilTest {
     }
 
 
-                    
 
     @Test
     void testConstructor() {
