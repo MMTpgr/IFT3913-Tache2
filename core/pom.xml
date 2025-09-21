@@ -145,6 +145,27 @@
                 </plugin>
 
                 <plugin>
+                    <groupId>org.pitest</groupId>
+                    <artifactId>pitest-maven</artifactId>
+                    <version>LATEST</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.pitest</groupId>
+                            <artifactId>pitest-junit5-plugin</artifactId>
+                            <version>LATEST</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <targetClasses>
+                            <param>com.graphhopper.util.ArrayUtil</param>
+                        </targetClasses>
+                        <targetTests>
+                            <param>com.graphhopper.util.ArrayUtilTest</param>
+                        </targetTests>
+                    </configuration>
+                </plugin>
+
+                <plugin>
                     <groupId>pl.project13.maven</groupId>
                     <artifactId>git-commit-id-plugin</artifactId>
                     <version>3.0.0</version>
