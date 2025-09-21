@@ -46,8 +46,10 @@ jobs:
       - name: Upload mutation score
         uses: actions/upload-artifact@v4
         with:
-          name: mutation-score
+          name: previous-score
           path: core/mutation_score.txt
+
+      
 
 
   
