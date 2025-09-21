@@ -39,7 +39,9 @@ jobs:
 
       # ---- PIT Mutation Testing ----
       - name: Run PIT mutation testing
-        run: pwd && cd core && pwd && mvn test-compile org.pitest:pitest-maven:mutationCoverage && grep -oP '\d+%' target/pit-reports/index.html | sed -n '2p' | xargs -I{} echo "Mutation Coverage: {}" > mutation_score.txt
+        run: |
+              pwd && cd core && pwd && mvn test-compile org.pitest:pitest-maven:mutationCoverage 
+              grep -oP '\d+%' target/pit-reports/index.html | sed -n '2p' | xargs -I{} echo "Mutation Coverage: {}" > mutation_score.txt
 
         
 
