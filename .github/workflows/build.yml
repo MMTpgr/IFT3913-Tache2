@@ -41,13 +41,15 @@ jobs:
       - name: Run PIT mutation testing
         run: |
               pwd && cd core && pwd && mvn test-compile org.pitest:pitest-maven:mutationCoverage 
-              grep -oP '\d+%' target/pit-reports/index.html | sed -n '2p' | xargs -I{} echo "Mutation Coverage: {}" > mutation_score.txt
+              SCORE=$(grep -oP '\d+%' target/pit-reports/index.html | sed -n '2p' | xargs -I{} echo "Mutation Coverage: {}" > mutation_score.txt)
+              echo "CURRENT_SCORE=$SCORE"
+              echo "CURRENT_SCORE=$SCORE" >> $GITHUB_ENV
 
-      - name: Upload mutation score
-        uses: actions/upload-artifact@v4
+      - name: Download previous mutation score
+        uses: actions/download-artifact@v4
         with:
-          name: previous-score
-          path: core/mutation_score.txt
+          name: mutation-score
+          path: .
 
       
 
