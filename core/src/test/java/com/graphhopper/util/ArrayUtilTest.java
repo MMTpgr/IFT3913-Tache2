@@ -205,7 +205,7 @@ class ArrayUtilTest {
         assertEquals(from(2, 3, 4), sub);
     }
 
-    /**
+    /** 
      * Test: testCalcSortOrder_InvalidLength
      *
      * Intention :
@@ -262,6 +262,56 @@ class ArrayUtilTest {
     }
 
     /**
+     * Test: testZero
+     * 
+     * Intention :
+     * Vérifie que la méthode zero(int) génère correctement un tableau
+     * rempli de zéros de la taille spécifiée.
+     * 
+     * Données de test :
+     * Trois cas sont testés : taille 0, taille 1 et taille 5.
+     * Ces cas couvrent les scénarios de base, y compris le cas limite
+     * de taille zéro.
+     * 
+     * Oracle :
+     * Pour chaque cas, on compare le tableau généré avec le tableau
+     * attendu rempli de zéros. Si les tableaux correspondent,
+     * le test est réussi, sinon il échoue.
+     */
+    @Test
+    public void testZero(){
+
+        assertEquals(ArrayUtil.zero(0), from());
+        assertEquals(ArrayUtil.zero(1), from(0));
+        assertEquals(ArrayUtil.zero(5), from(0,0,0,0,0));
+        
+    }
+
+    /**
+     * Test: testRemoveConsecutiveDuplicatesErrors
+     * 
+     * Intention :
+     * Vérifie que removeConsecutiveDuplicates(int[], int) lance une exception
+     * lorsque la longueur fournie est invalide (négative ou supérieure à la taille
+     * du tableau).
+     * 
+     * Données de test :
+     * Un tableau d’entiers avec des doublons consécutifs est utilisé.
+     * Les longueurs testées sont -1 (négative) et arr.length + 1 (trop grande).
+     * 
+     * Oracle :
+     * Une IllegalArgumentException doit être levée pour la longueur négative,
+     * et une ArrayIndexOutOfBoundsException pour la longueur trop grande.
+     * Cela confirme que la méthode valide correctement la longueur d’entrée.
+     */
+    @Test
+    public void testRemoveConsecutiveDuplicatesErrors () {
+        int[] arr = new int[]{3, 3, 4, 2, 1, -3, -3, 9, 3, 6, 6, 7, 7};
+        assertThrows(IllegalArgumentException.class, () -> ArrayUtil.removeConsecutiveDuplicates(arr, -1));
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> ArrayUtil.removeConsecutiveDuplicates(arr, arr.length + 1));
+    }
+
+    /**
      * Test: testCalcSortOrder_IntArrayList_UnequalSize_ThrowsException_Faker
      *
      * Intention :
@@ -307,6 +357,8 @@ class ArrayUtilTest {
             ArrayUtil.calcSortOrder(arr1, arr2);
         });
     }
+
+    
 
 
 
