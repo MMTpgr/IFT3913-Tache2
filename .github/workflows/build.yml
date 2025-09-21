@@ -39,7 +39,7 @@ jobs:
 
       # ---- PIT Mutation Testing ----
       - name: Run PIT mutation testing
-        run: mvn org.pitest:pitest-maven:mutationCoverage
+        run: mvn test-compile org.pitest:pitest-maven:mutationCoverage
 
       
 
