@@ -38,7 +38,7 @@ jobs:
         run: mvn -B clean test
 
       # ---- PIT Mutation Testing ----
-      - name: Run PIT mutation testing
+      - name: Run PIT mutation testing janoob
         run: mvn test-compile org.pitest:pitest-maven:mutationCoverage
 
       
