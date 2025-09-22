@@ -59,6 +59,7 @@ jobs:
             echo "❌ Mutation score decreased ($CURRENT_SCORE < $PREV_SCORE)"
             exit 1
           fi
+          echo "$SCORE" > last_mutation_score.txt
 
 
       - name: Commit and push updated mutation score
