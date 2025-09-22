@@ -51,6 +51,7 @@ jobs:
 
       - name: Compare with previous mutation score
         run: |
+          cd core
           ls
           if [ -f last_mutation_score.txt ]; then
             PREV_SCORE=$(cat last_mutation_score.txt)
