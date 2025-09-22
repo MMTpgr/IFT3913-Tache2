@@ -46,18 +46,20 @@ jobs:
           SCORE=$(grep -oP '\d+%' target/pit-reports/index.html | sed -n '2p' | tr -d '%')
           echo "CURRENT_SCORE=$SCORE"
           echo "$SCORE" > last_mutation_score.txt
+          ls
 
 
       - name: Compare with previous mutation score
         run: |
+          ls
           if [ -f last_mutation_score.txt ]; then
             PREV_SCORE=$(cat last_mutation_score.txt)
           else
             PREV_SCORE=0
           fi
           echo "Previous score: $PREV_SCORE"
-          echo "Current score:  $CURRENT_SCORE"
-          if (( CURRENT_SCORE < PREV_SCORE )); then
+          echo "Current score:  $SCORE"
+          if (( SCORE < PREV_SCORE )); then
             echo "❌ Mutation score decreased ($CURRENT_SCORE < $PREV_SCORE)"
             exit 1
           fi
@@ -68,9 +70,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add last_mutation_score.txt
-          git commit -m "Update last mutation score to $CURRENT_SCORE" || echo "No changes to commit"
+          git commit -m "Update last mutation score to SCORE" || echo "No changes to commit"
           git push origin HEAD:${GITHUB_REF##*/}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       
+
+
+  
+        
+
+      
+
+      
+
