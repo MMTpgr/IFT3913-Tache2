@@ -45,7 +45,6 @@ jobs:
           mvn test-compile org.pitest:pitest-maven:mutationCoverage
           SCORE=$(grep -oP '\d+%' target/pit-reports/index.html | sed -n '2p' | tr -d '%')
           echo "CURRENT_SCORE=$SCORE"
-          echo "$SCORE" > last_mutation_score.txt
 
           if [ -f last_mutation_score.txt ]; then
             PREV_SCORE=$(cat last_mutation_score.txt)
