@@ -39,25 +39,20 @@ jobs:
 
 
       # ---- PIT Mutation Testing ----
-      - name: Run PIT mutation testing
+      - name: Run PIT mutation testing and compare
         run: |
           cd core
           mvn test-compile org.pitest:pitest-maven:mutationCoverage
           SCORE=$(grep -oP '\d+%' target/pit-reports/index.html | sed -n '2p' | tr -d '%')
           echo "CURRENT_SCORE=$SCORE"
           echo "$SCORE" > last_mutation_score.txt
-          ls
 
-
-      - name: Compare with previous mutation score
-        run: |
-          cd core
-          ls
           if [ -f last_mutation_score.txt ]; then
             PREV_SCORE=$(cat last_mutation_score.txt)
           else
             PREV_SCORE=0
           fi
+
           echo "Previous score: $PREV_SCORE"
           echo "Current score:  $SCORE"
           if (( SCORE < PREV_SCORE )); then
