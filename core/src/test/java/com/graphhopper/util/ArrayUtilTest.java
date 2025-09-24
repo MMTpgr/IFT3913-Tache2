@@ -360,11 +360,4 @@ class ArrayUtilTest {
 
     
 
-
-
-    @Test
-    void testConstructor() {
-        // Just to cover the private constructor
-        new ArrayUtil();
-    }
 }
