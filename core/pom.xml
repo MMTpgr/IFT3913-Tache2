@@ -158,9 +158,11 @@
                     <configuration>
                         <targetClasses>
                             <param>com.graphhopper.util.ArrayUtil</param>
+                            <param>com.graphhopper.util.BitUtil</param>
                         </targetClasses>
                         <targetTests>
                             <param>com.graphhopper.util.ArrayUtilTest</param>
+                            <param>com.graphhopper.util.BitUtilTest</param>
                         </targetTests>
                     </configuration>
                 </plugin>
