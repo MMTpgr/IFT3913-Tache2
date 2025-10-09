@@ -1,0 +1,122 @@
+DOCUMENTATION DES TESTS DE LA CLASSE BitUtil et ArrayUtil
+
+_______________________________________________________________________
+Test : testFromFloat_WrapperDelegatesCorrectly
+Intention :
+Ce test a pour objectif de vérifier que la méthode fromFloat écrit correctement une valeur flottante dans un tableau d’octets lorsqu’aucun décalage n’est fourni (offset = 0). Il valide que le wrapper appelle correctement la méthode principale avec le décalage par défaut.
+
+Données de test :
+- Un tableau de 4 octets, correspondant à la taille standard d’un float.
+- La valeur flottante 42.42f choisie pour représenter un nombre non trivial et s’assurer que l’écriture manipule correctement les bits.
+
+
+Oracle :
+ Après écriture de la valeur dans le tableau, toFloat doit retourner exactement la même valeur flottante.
+
+_______________________________________________________________________
+Test : testSubList_NormalRange
+Intention :
+ Ce test vérifie que la méthode subList retourne correctement une sous-liste lorsqu’on lui fournit un intervalle correct. Il valide que les indices sont bien gérés et que l’extraction est correcte.
+
+Données de test :
+ Liste d’entrée : [1, 2, 3, 4, 5], indices : (1,4). La liste est sortée pour faciliter la vérification, l’intervalle choisi permet de tester l’extraction de la sous-liste.
+
+Oracle :
+ Le résultat attendu est [2, 3, 4]. Si la méthode retourne cette sous-liste, le test est réussi ; sinon.
+
+_______________________________________________________________________
+Test : testCalcSortOrder_InvalidLength
+Intention :
+ Vérifie que calcSortOrder lance une IllegalArgumentException lorsque la longueur fournie ne correspond pas à la taille des tableaux.
+
+Données de test :
+- Cas 1 : arr1=[1,2,3], arr2=[4,5,6], longueur = 4 -> longueur trop grande.
+- Cas 2 : arr1=[1,2,3], arr2=[7,8], longueur = 3 -> arr2 trop court.
+
+
+Oracle :
+Dans les deux cas, une IllegalArgumentException doit être levée, confirmant la validation de la longueur des tableaux.
+
+
+_______________________________________________________________________
+Test : testApplyOrder_InvalidOrderLength_ThrowsException
+Intention :
+ Vérifie que applyOrder rejette un ordre dont la longueur est supérieure à celle du tableau source.
+
+Données de test :
+- Tableau : [10, 20, 30]
+- Ordre fourni : [2, 1, 0, 3] 
+
+Oracle :
+Une IllegalArgumentException doit être levée, validant que la méthode vérifie correctement la cohérence des longueurs.
+
+_______________________________________________________________________
+Test : testZero
+Intention :
+ Vérifie que la méthode zero(int) génère correctement un tableau rempli de zéros de la taille spécifiée.
+
+Données de test :
+ Trois cas testés : taille 0, taille 1 et taille 5.
+
+Oracle :
+ Pour chaque cas, le tableau généré doit correspondre exactement au tableau attendu rempli de zéros sans quoi une erreur est retournée.
+
+_______________________________________________________________________
+Test : testRemoveConsecutiveDuplicatesErrors
+Intention :
+ Vérifie que removeConsecutiveDuplicates lance une exception lorsque la longueur fournie est invalide.
+
+Données de test :
+- Tableau : [3, 3, 4, 2, 1, -3, -3, 9, 3, 6, 6, 7, 7]
+- Longueurs testées : -1, arr.length + 1 (out of range)
+
+
+Oracle :
+- Longueur négative : IllegalArgumentException
+- Longueur trop grande : ArrayIndexOutOfBoundsException
+
+
+
+
+
+
+
+_______________________________________________________________________
+Test : testCalcSortOrder_IntArrayList_UnequalSize_ThrowsException_Faker
+Intention :
+Vérifie que calcSortOrder rejette deux listes de tailles différentes en lançant une IllegalArgumentException. L’utilisation de JavaFaker permet de générer dynamiquement des listes d’entiers aléatoires, évitant le hardcoding et augmentant la couverture.
+
+Données de test :
+- Tailles des listes générées aléatoirement (3–10), en s’assurant qu’elles sont inégales.
+- Contenu des listes : entiers aléatoires 1–100, mais seule la différence de taille importe pour le test.
+
+
+Oracle :
+ Une IllegalArgumentException doit être levée, confirmant que la méthode valide la taille des listes, même avec des contenus aléatoires.
+
+_______________________________________________________________________
+Test : testFromDouble_WrapperDelegatesCorrectly
+Intention :
+ Ce test vérifie que la méthode fromDouble écrit correctement une valeur double dans le tableau d’octets, en utilisant un offset =0. 
+
+Données de test :
+- Tableau d’octets de taille 8 (taille d’un double).
+- Valeur double testée : 123456.789.
+
+
+Oracle :
+ Après écriture, la lecture avec toDouble doit retourner exactement la même valeur. 
+
+_______________________________________________________________________
+Test : testFromFloat_WrapperDelegatesCorrectly
+Intention:
+Vérifier que la méthode fromFloat écrit correctement la valeur flottante dans le tableau d’octets en appelant la version principale avec un décalage de 0.
+
+Données de test :
+- Un tableau d’octets de taille 4.
+- Une valeur flottante simple : 42.42f.
+
+
+Oracle :
+ Après écriture, la lecture du tableau via toFloat(bytes, 0) doit retourner la même valeur que celle passée en paramètre. 
+
